@@ -3,7 +3,6 @@ import React from "react";
 const Page = () => {
   return (
     <div className="h-screen bg-white relative">
-      {/* SVG Rectangle 2779 - Left side, half off screen */}
       <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1/2 rotate-45 z-20 -mt-5">
         <svg
           width="460"
