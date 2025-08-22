@@ -1,0 +1,31 @@
+<svg
+  width="127"
+  height="44"
+  viewBox="0 0 127 44"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <style>
+    .diamond { fill: none; stroke: #1A1B1C; }
+    .arrow-icon { fill: #1A1B1C; }
+    .text { font-family: Roboto, sans-serif; font-size: 14px; font-weight: bold; fill: #000; opacity: 0.7; }
+  </style>
+  
+  <text
+    class="text"
+    x="2"
+    y="30"
+  >
+    TAKE TEST
+  </text>
+
+  <rect
+    class="diamond"
+    x="95"
+    y="11"
+    width="26"
+    height="26"
+    transform="rotate(45 104.9 20.9)"
+  />
+
+  <polygon class="arrow-icon" points="102.5,19.8 102.5,27.8 110.5,23.8" />
+</svg>
