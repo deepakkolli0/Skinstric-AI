@@ -18,7 +18,7 @@ const DashedBorder = () => {
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeDasharray="2 2"
+        strokeDasharray="4 2"
       />
     </svg>
   );
