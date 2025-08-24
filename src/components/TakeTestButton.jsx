@@ -1,10 +1,36 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
-const TakeTestButton = () => {
+const TakeTestButton = ({ onClick, text = "TAKE TEST" }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      router.push("/take-test");
+    }
+  };
+
   return (
     <div style={{ display: "inline-block" }}>
       <style>
         {`
+          @keyframes fadeInFromLeft {
+            from {
+              opacity: 0;
+              transform: translateX(-50px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          
+          .fade-in-button {
+            animation: fadeInFromLeft 1.2s ease-out;
+          }
+          
           .diamond {
             transition: transform 0.2s ease;
             transform-origin: 104.9px 19.9px;
@@ -27,11 +53,13 @@ const TakeTestButton = () => {
       </style>
 
       <svg
-        className="take-test-svg"
+        className="take-test-svg fade-in-button"
         width="127"
         height="50"
         viewBox="0 0 127 50"
         xmlns="http://www.w3.org/2000/svg"
+        onClick={handleClick}
+        style={{ cursor: "pointer" }}
       >
         <text
           className="text"
@@ -43,7 +71,7 @@ const TakeTestButton = () => {
           fill="#000"
           opacity="0.7"
         >
-          TAKE TEST
+          {text}
         </text>
 
         <rect
