@@ -16,21 +16,6 @@ const TakeTestButton = ({ onClick, text = "TAKE TEST" }) => {
     <div style={{ display: "inline-block" }}>
       <style>
         {`
-          @keyframes fadeInFromLeft {
-            from {
-              opacity: 0;
-              transform: translateX(-50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-          
-          .fade-in-button {
-            animation: fadeInFromLeft 1.2s ease-out;
-          }
-          
           .diamond {
             transition: transform 0.2s ease;
             transform-origin: 104.9px 19.9px;
@@ -53,7 +38,7 @@ const TakeTestButton = ({ onClick, text = "TAKE TEST" }) => {
       </style>
 
       <svg
-        className="take-test-svg fade-in-button"
+        className="take-test-svg"
         width="127"
         height="50"
         viewBox="0 0 127 50"

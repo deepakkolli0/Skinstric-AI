@@ -5,6 +5,7 @@ import axios from "axios";
 import NavBar from "../../components/NavBar";
 import Square from "../../components/Square";
 import TakeTestButton from "../../components/TakeTestButton";
+import StartAnalysisText from "../../components/StartAnalysisText";
 
 const TakeTestPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
@@ -94,7 +95,7 @@ const TakeTestPage = () => {
   };
 
   const handleProceed = () => {
-    router.push("/congrats");
+    router.push("/camera");
   };
 
   const currentQuestionData = questions.find((q) => q.id === currentQuestion);
@@ -121,11 +122,7 @@ const TakeTestPage = () => {
              }
            `}
       </style>
-      <div className="absolute top-15 left-9 z-20">
-        <p className="text-[12px] text-black font-bold uppercase tracking-tight">
-          TO START ANALYSIS
-        </p>
-      </div>
+      <StartAnalysisText />
 
       <main
         className="flex items-center justify-center h-screen w-full relative z-10"
@@ -209,7 +206,27 @@ const TakeTestPage = () => {
 
       {showProceed && (
         <div className="absolute bottom-24 right-10 z-30">
-          <TakeTestButton onClick={handleProceed} text="PROCEED" />
+          <style>
+            {`
+              @keyframes fadeInFromLeft {
+                from {
+                  opacity: 0;
+                  transform: translateX(-50px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateX(0);
+                }
+              }
+              
+              .proceed-fade-in {
+                animation: fadeInFromLeft 1.2s ease-out;
+              }
+            `}
+          </style>
+          <div className="proceed-fade-in">
+            <TakeTestButton onClick={handleProceed} text="PROCEED" />
+          </div>
         </div>
       )}
       <div className="absolute bottom-24 left-10 z-30 flex items-center">
