@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import NavBar from "../../components/NavBar";
 import StartAnalysisText from "../../components/StartAnalysisText";
 import CameraRotatingBorder from "../../components/CameraRotatingBorder";
@@ -11,6 +12,7 @@ import GalleryStaticContent from "../../components/GalleryStaticContent";
 const CameraPage = () => {
   const router = useRouter();
   const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const storedData = localStorage.getItem("skinstricUserData");
@@ -21,6 +23,64 @@ const CameraPage = () => {
 
   const handleBack = () => {
     router.push("/");
+  };
+
+  const convertImageToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result.split(",")[1]; // Remove data:image/...;base64, prefix
+        resolve(base64String);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileSelect = async (file) => {
+    setIsLoading(true);
+
+    try {
+      // Convert image to base64
+      const base64Image = await convertImageToBase64(file);
+
+      // Call the API
+      const response = await axios.post(
+        "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
+        {
+          image: base64Image,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("API Response:", response.data);
+
+      // Store the analysis results
+      const analysisData = {
+        ...userData,
+        imageAnalysis: response.data,
+        uploadedImage: base64Image,
+        timestamp: new Date().toISOString(),
+      };
+
+      localStorage.setItem("skinstricUserData", JSON.stringify(analysisData));
+
+      setIsLoading(false);
+
+      // Show success alert
+      alert("Image analyzed successfully!");
+
+      // Navigate to demographics page
+      router.push("/demographics");
+    } catch (error) {
+      console.error("Error analyzing image:", error);
+      setIsLoading(false);
+      alert("Error analyzing image. Please try again.");
+    }
   };
 
   return (
@@ -121,6 +181,21 @@ const CameraPage = () => {
             height: 100%;
             z-index: 2;
           }
+
+          @keyframes bounce {
+            0% {
+              transform: translateY(0);
+            }
+            20% {
+              transform: translateY(-3px);
+            }
+            80% {
+              transform: translateY(-3px);
+            }
+            100% {
+              transform: translateY(0);
+            }
+          }
         `}
       </style>
 
@@ -128,27 +203,61 @@ const CameraPage = () => {
         className="flex items-center justify-center h-screen w-full relative z-10"
         style={{ marginTop: "-110px" }}
       >
-        <div
-          className="flex items-center justify-center"
-          style={{ gap: "400px" }}
-        >
+        {isLoading ? (
+          <div className="flex flex-col items-center">
+            <p className="text-[24px] text-black font-light mb-12">
+              Analyzing image...
+            </p>
+            <div className="flex space-x-6">
+              <div
+                className="w-2 h-2 bg-gray-400 rounded-full"
+                style={{
+                  animation: "bounce 2.5s infinite",
+                  animationDelay: "0s",
+                }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-gray-400 rounded-full"
+                style={{
+                  animation: "bounce 2.5s infinite",
+                  animationDelay: "0.8s",
+                }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-gray-400 rounded-full"
+                style={{
+                  animation: "bounce 2.5s infinite",
+                  animationDelay: "1.6s",
+                }}
+              ></div>
+            </div>
+          </div>
+        ) : (
           <div
-            className="flex flex-col items-center cursor-pointer"
-            style={{ marginLeft: "-100px" }}
+            className="flex items-center justify-center"
+            style={{ gap: "400px" }}
           >
-            <div className="svg-container">
-              <CameraRotatingBorder />
-              <CameraStaticContent className="static-content" />
+            <div
+              className="flex flex-col items-center cursor-pointer"
+              style={{ marginLeft: "-100px" }}
+            >
+              <div className="svg-container">
+                <CameraRotatingBorder />
+                <CameraStaticContent className="static-content" />
+              </div>
             </div>
-          </div>
 
-          <div className="flex flex-col items-center cursor-pointer">
-            <div className="svg-container">
-              <GalleryRotatingBorder />
-              <GalleryStaticContent className="static-content" />
+            <div className="flex flex-col items-center cursor-pointer">
+              <div className="svg-container">
+                <GalleryRotatingBorder />
+                <GalleryStaticContent
+                  className="static-content"
+                  onFileSelect={handleFileSelect}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </main>
 
       <div className="absolute bottom-24 left-10 z-30 flex items-center">

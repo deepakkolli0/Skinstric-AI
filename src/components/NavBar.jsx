@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const NavBar = () => {
+const NavBar = ({ page = "INTRO" }) => {
   const router = useRouter();
 
   const handleLogoClick = () => {
@@ -21,7 +21,7 @@ const NavBar = () => {
                 <span className="text-[10px]">S</span>KIN
                 <span className="text-[10px]">S</span>TRIC
               </h1>
-              <span className="text-[11px] text-gray-500 ml-4">[ INTRO ]</span>
+              <span className="text-[11px] text-gray-500 ml-4">[ {page} ]</span>
             </div>
           </div>
 
