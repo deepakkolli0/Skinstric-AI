@@ -1,6 +1,10 @@
 import React, { useRef } from "react";
 
-const GalleryStaticContent = ({ className = "", onFileSelect }) => {
+const GalleryStaticContent = ({
+  className = "",
+  onFileSelect,
+  grayed = false,
+}) => {
   const fileInputRef = useRef(null);
 
   const handleGalleryClick = () => {
@@ -50,6 +54,10 @@ const GalleryStaticContent = ({ className = "", onFileSelect }) => {
             alt="Gallery Icon"
             width="143"
             height="143"
+            style={{
+              filter: grayed ? "grayscale(100%)" : "none",
+              opacity: grayed ? 0.5 : 1,
+            }}
           />
         </div>
       </div>
@@ -65,6 +73,10 @@ const GalleryStaticContent = ({ className = "", onFileSelect }) => {
           alt="Gallery Title"
           width="188"
           height="84"
+          style={{
+            filter: grayed ? "grayscale(100%)" : "none",
+            opacity: grayed ? 0.5 : 1,
+          }}
         />
       </div>
     </div>

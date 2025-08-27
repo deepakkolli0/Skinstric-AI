@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import NavBar from "../../components/NavBar";
-import StartAnalysisText from "../../components/StartAnalysisText";
 import CameraRotatingBorder from "../../components/CameraRotatingBorder";
 import CameraStaticContent from "../../components/CameraStaticContent";
 import GalleryRotatingBorder from "../../components/GalleryRotatingBorder";
@@ -13,6 +12,9 @@ const CameraPage = () => {
   const router = useRouter();
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showCameraPopup, setShowCameraPopup] = useState(false);
+  const [galleryGrayed, setGalleryGrayed] = useState(false);
 
   useEffect(() => {
     const storedData = localStorage.getItem("skinstricUserData");
@@ -23,6 +25,23 @@ const CameraPage = () => {
 
   const handleBack = () => {
     router.push("/");
+  };
+
+  const handleScanClick = () => {
+    setShowCameraPopup(true);
+    setGalleryGrayed(true);
+  };
+
+  const handleAllowCamera = () => {
+    setShowCameraPopup(false);
+    setGalleryGrayed(false);
+    // Navigate to scan page
+    router.push("/scan");
+  };
+
+  const handleDenyCamera = () => {
+    setShowCameraPopup(false);
+    setGalleryGrayed(false);
   };
 
   const convertImageToBase64 = (file) => {
@@ -39,6 +58,10 @@ const CameraPage = () => {
 
   const handleFileSelect = async (file) => {
     setIsLoading(true);
+
+    // Set the selected image for preview
+    const imageUrl = URL.createObjectURL(file);
+    setSelectedImage(imageUrl);
 
     try {
       // Convert image to base64
@@ -87,6 +110,104 @@ const CameraPage = () => {
     <div className="h-screen bg-white relative">
       <NavBar />
 
+      {/* Camera Access Popup */}
+      {showCameraPopup && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "black",
+              padding: "40px",
+              maxWidth: "400px",
+              width: "90%",
+              position: "relative",
+              marginLeft: "-30px",
+            }}
+          >
+            <p
+              style={{
+                color: "white",
+                fontSize: "18px",
+                fontWeight: "bold",
+                textAlign: "left",
+                marginBottom: "60px",
+                marginTop: "-20px",
+                marginLeft: "-20px",
+                lineHeight: "1.4",
+              }}
+            >
+              ALLOW AI TO ACCESS YOUR CAMERA
+            </p>
+
+            <div
+              style={{
+                position: "absolute",
+                bottom: "5px",
+                right: "20px",
+                display: "flex",
+                gap: "20px",
+              }}
+            >
+              <button
+                onClick={handleDenyCamera}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "gray",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "#666")}
+                onMouseLeave={(e) => (e.target.style.color = "gray")}
+              >
+                DENY
+              </button>
+              <button
+                onClick={handleAllowCamera}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "#ccc")}
+                onMouseLeave={(e) => (e.target.style.color = "white")}
+              >
+                ALLOW
+              </button>
+            </div>
+
+            {/* White line over the buttons */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: "35px",
+                left: 0,
+                right: 0,
+                height: "1px",
+                backgroundColor: "white",
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       <div
         style={{
           position: "absolute",
@@ -109,6 +230,55 @@ const CameraPage = () => {
         >
           TO START ANALYSIS
         </p>
+      </div>
+
+      {/* Preview Section */}
+      <div
+        style={{
+          position: "absolute",
+          top: "80px",
+          right: "21px",
+          zIndex: 50,
+          backgroundColor: "white",
+          padding: "10px",
+        }}
+      >
+        <p
+          style={{
+            fontSize: "14px",
+            color: "black",
+            fontWeight: "bold",
+            textTransform: "uppercase",
+            letterSpacing: "tight",
+            margin: 0,
+            marginBottom: "10px",
+          }}
+        >
+          PREVIEW
+        </p>
+        <div
+          style={{
+            width: "100px",
+            height: "100px",
+            border: "2px solid #d3d3d3",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+          }}
+        >
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt="Preview"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          )}
+        </div>
       </div>
 
       <style>
@@ -243,7 +413,10 @@ const CameraPage = () => {
             >
               <div className="svg-container">
                 <CameraRotatingBorder />
-                <CameraStaticContent className="static-content" />
+                <CameraStaticContent
+                  className="static-content"
+                  onClick={handleScanClick}
+                />
               </div>
             </div>
 
@@ -253,6 +426,7 @@ const CameraPage = () => {
                 <GalleryStaticContent
                   className="static-content"
                   onFileSelect={handleFileSelect}
+                  grayed={galleryGrayed}
                 />
               </div>
             </div>
