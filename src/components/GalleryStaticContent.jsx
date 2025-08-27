@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 
-const GalleryStaticContent = ({ className = "" }) => {
+const GalleryStaticContent = ({ className = "", onFileSelect }) => {
+  const fileInputRef = useRef(null);
+
+  const handleGalleryClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && onFileSelect) {
+      onFileSelect(file);
+    }
+  };
+
   return (
     <div
       className={className}
@@ -10,6 +23,13 @@ const GalleryStaticContent = ({ className = "" }) => {
         position: "relative",
       }}
     >
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+      />
       <div
         style={{
           position: "absolute",
@@ -23,6 +43,7 @@ const GalleryStaticContent = ({ className = "" }) => {
           style={{
             transformOrigin: "center center",
           }}
+          onClick={handleGalleryClick}
         >
           <img
             src="/gallery-icon.svg"
