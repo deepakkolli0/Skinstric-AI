@@ -1,6 +1,6 @@
 import React from "react";
 
-const CameraStaticContent = ({ className = "" }) => {
+const CameraStaticContent = ({ className = "", onClick }) => {
   return (
     <div
       className={className}
@@ -23,6 +23,7 @@ const CameraStaticContent = ({ className = "" }) => {
           style={{
             transformOrigin: "center center",
           }}
+          onClick={onClick}
         >
           <img src="/scan-icon.svg" alt="Scan Icon" width="143" height="143" />
         </div>

@@ -11,42 +11,31 @@ const DemographicsPage = () => {
   };
 
   const handleGetSummary = () => {
-    // Store the API data in localStorage before navigating
-    // This assumes you have the API response data available here
-    // You can modify this to use the actual API response from your image upload
-    const mockApiData = {
-      data: {
-        race: {
-          "east asian": 0.3587191064,
-          black: 0.3586271178,
-          "middle eastern": 0.2683848096,
-          "southeast asian": 0.0138822667,
-          "latino hispanic": 0.0000691443,
-          "south asian": 0.0002062164,
-          white: 0.0001113388,
-        },
-        age: {
-          "30-39": 0.564000775,
-          "20-29": 0.3585800395,
-          "40-49": 0.0671249281,
-          "70+": 0.0017673786,
-          "60-69": 0.0064199403,
-          "50-59": 0.0002580652,
-          "0-2": 0.001755995,
-          "3-9": 0.0000465496,
-          "10-19": 0.0000463287,
-        },
-        gender: {
-          female: 0.9997923732,
-          male: 0.0002076268,
-        },
-      },
-      success: true,
-      message: "Phase two api called successfully!",
-    };
+    // Get the actual API data from localStorage that was stored by the camera page
+    const storedData = localStorage.getItem("skinstricUserData");
 
-    localStorage.setItem("demographicsData", JSON.stringify(mockApiData));
-    router.push("/data");
+    if (storedData) {
+      try {
+        const userData = JSON.parse(storedData);
+        if (userData.imageAnalysis) {
+          // Store the image analysis data with the key that the data page expects
+          localStorage.setItem(
+            "demographicsData",
+            JSON.stringify(userData.imageAnalysis)
+          );
+          router.push("/data");
+        } else {
+          alert("No image analysis data found. Please upload an image first.");
+        }
+      } catch (error) {
+        console.error("Error parsing stored data:", error);
+        alert(
+          "Error loading image analysis data. Please try uploading an image again."
+        );
+      }
+    } else {
+      alert("No data found. Please upload an image first.");
+    }
   };
 
   return (

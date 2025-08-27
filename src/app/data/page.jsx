@@ -26,17 +26,36 @@ const DataPage = () => {
         const parsedData = JSON.parse(decodeURIComponent(dataParam));
         setApiData(parsedData);
         setLoading(false);
-        if (parsedData.data && parsedData.data.race) {
-          const raceEntries = Object.entries(parsedData.data.race);
-          const highestRace = raceEntries.reduce((a, b) =>
-            a[1] > b[1] ? a : b
-          );
-          setSelectedOption(highestRace[0]);
-          setSelectedOptions({
-            race: highestRace[0],
-            age: null,
-            gender: null,
-          });
+        if (parsedData.data) {
+          // Initialize selected options for all sections
+          const initialOptions = {};
+
+          if (parsedData.data.race) {
+            const raceEntries = Object.entries(parsedData.data.race);
+            const highestRace = raceEntries.reduce((a, b) =>
+              a[1] > b[1] ? a : b
+            );
+            initialOptions.race = highestRace[0];
+            setSelectedOption(highestRace[0]);
+          }
+
+          if (parsedData.data.age) {
+            const ageEntries = Object.entries(parsedData.data.age);
+            const highestAge = ageEntries.reduce((a, b) =>
+              a[1] > b[1] ? a : b
+            );
+            initialOptions.age = highestAge[0];
+          }
+
+          if (parsedData.data.gender) {
+            const genderEntries = Object.entries(parsedData.data.gender);
+            const highestGender = genderEntries.reduce((a, b) =>
+              a[1] > b[1] ? a : b
+            );
+            initialOptions.gender = highestGender[0];
+          }
+
+          setSelectedOptions(initialOptions);
         }
       } catch (err) {
         setError("Invalid data format");
@@ -49,17 +68,36 @@ const DataPage = () => {
           const parsedData = JSON.parse(storedData);
           setApiData(parsedData);
           setLoading(false);
-          if (parsedData.data && parsedData.data.race) {
-            const raceEntries = Object.entries(parsedData.data.race);
-            const highestRace = raceEntries.reduce((a, b) =>
-              a[1] > b[1] ? a : b
-            );
-            setSelectedOption(highestRace[0]);
-            setSelectedOptions({
-              race: highestRace[0],
-              age: null,
-              gender: null,
-            });
+          if (parsedData.data) {
+            // Initialize selected options for all sections
+            const initialOptions = {};
+
+            if (parsedData.data.race) {
+              const raceEntries = Object.entries(parsedData.data.race);
+              const highestRace = raceEntries.reduce((a, b) =>
+                a[1] > b[1] ? a : b
+              );
+              initialOptions.race = highestRace[0];
+              setSelectedOption(highestRace[0]);
+            }
+
+            if (parsedData.data.age) {
+              const ageEntries = Object.entries(parsedData.data.age);
+              const highestAge = ageEntries.reduce((a, b) =>
+                a[1] > b[1] ? a : b
+              );
+              initialOptions.age = highestAge[0];
+            }
+
+            if (parsedData.data.gender) {
+              const genderEntries = Object.entries(parsedData.data.gender);
+              const highestGender = genderEntries.reduce((a, b) =>
+                a[1] > b[1] ? a : b
+              );
+              initialOptions.gender = highestGender[0];
+            }
+
+            setSelectedOptions(initialOptions);
           }
         } catch (err) {
           setError("Invalid stored data format");

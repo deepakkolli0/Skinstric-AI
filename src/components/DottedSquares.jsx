@@ -8,13 +8,10 @@ const DottedSquares = () => {
   const handleDiamondHover = (diamondType) => {
     console.log("Hovering:", diamondType);
 
-    // Clear any existing exit animations
     setAnimatingSquares({});
 
-    // Set the new hovered diamond
     setHoveredDiamond(diamondType);
 
-    // Set animation state for the square that should appear
     if (diamondType === "weather") {
       setAnimatingSquares((prev) => ({ ...prev, largest: "enter" }));
     } else if (diamondType === "cosmetic" || diamondType === "skin") {
@@ -35,7 +32,6 @@ const DottedSquares = () => {
 
   return (
     <div className="absolute inset-0 z-20">
-      {/* Single set of squares positioned in the center */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 squares-container">
         <div
           className={`absolute sparse-dots largest-square ${
@@ -117,7 +113,6 @@ const DottedSquares = () => {
          `}
       </style>
 
-      {/* Left */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -translate-x-[188px]">
         <div
           className="relative z-30 group cosmetic-group"
@@ -139,7 +134,6 @@ const DottedSquares = () => {
         </div>
       </div>
 
-      {/* Right */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 translate-x-[29px]">
         <div
           className="relative z-30 group skin-group"
@@ -160,7 +154,6 @@ const DottedSquares = () => {
         </div>
       </div>
 
-      {/* Top */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -translate-y-[190px] -translate-x-[80px]">
         <div
           className="relative cursor-pointer z-30 group demographics-group"
@@ -179,7 +172,6 @@ const DottedSquares = () => {
         </div>
       </div>
 
-      {/* Bottom */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 translate-y-[34px] -translate-x-[79px]">
         <div
           className="relative z-30 group weather-group"
