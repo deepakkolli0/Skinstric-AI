@@ -57,8 +57,6 @@ const ScanPage = () => {
         }
       );
 
-      
-
       const analysisData = {
         ...userData,
         imageAnalysis: response.data,
@@ -123,18 +121,17 @@ const ScanPage = () => {
   };
 
   const startCamera = async () => {
-    
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "user" },
       });
-      
+
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         setCameraActive(true);
-                } else {
-        }
+      } else {
+      }
     } catch (error) {
       console.error("Error accessing camera:", error);
       alert("Error accessing camera. Please allow camera permissions.");
@@ -172,7 +169,6 @@ const ScanPage = () => {
     }, 1000);
 
     const timer = setTimeout(() => {
-      
       setIsLoading(false);
     }, 3000);
 
@@ -185,7 +181,6 @@ const ScanPage = () => {
   useEffect(() => {
     if (!isLoading && mounted && !cameraActive && !showPreview) {
       const cameraTimer = setTimeout(() => {
-
         startCamera();
       }, 100);
 
@@ -203,13 +198,6 @@ const ScanPage = () => {
       </div>
     );
   }
-
-  
-    isLoading,
-    cameraActive,
-    mounted,
-    showPreview,
-  });
 
   return (
     <div className="h-screen bg-white relative">
