@@ -27,7 +27,6 @@ const DataPage = () => {
         setApiData(parsedData);
         setLoading(false);
         if (parsedData.data) {
-          // Initialize selected options for all sections
           const initialOptions = {};
 
           if (parsedData.data.race) {
@@ -69,7 +68,6 @@ const DataPage = () => {
           setApiData(parsedData);
           setLoading(false);
           if (parsedData.data) {
-            // Initialize selected options for all sections
             const initialOptions = {};
 
             if (parsedData.data.race) {

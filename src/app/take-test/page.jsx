@@ -36,7 +36,6 @@ const TakeTestPage = () => {
       if (questionId === 1) {
         setCurrentQuestion(2);
       } else if (questionId === 2) {
-        console.log("Form submitted:", { name, city });
         setIsLoading(true);
 
         await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -56,7 +55,7 @@ const TakeTestPage = () => {
           );
 
           const data = response.data;
-          console.log("API Response:", data);
+
           setApiResponse(data);
           setIsLoading(false);
           setShowProceed(true);

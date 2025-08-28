@@ -46,7 +46,6 @@ const CameraPage = () => {
   const handleAllowCamera = () => {
     setShowCameraPopup(false);
     setGalleryGrayed(false);
-    // Navigate to scan page
     router.push("/scan");
   };
 
@@ -59,7 +58,7 @@ const CameraPage = () => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
-        const base64String = reader.result.split(",")[1]; // Remove data:image/...;base64, prefix
+        const base64String = reader.result.split(",")[1];
         resolve(base64String);
       };
       reader.onerror = reject;
@@ -70,15 +69,12 @@ const CameraPage = () => {
   const handleFileSelect = async (file) => {
     setIsLoading(true);
 
-    // Set the selected image for preview
     const imageUrl = URL.createObjectURL(file);
     setSelectedImage(imageUrl);
 
     try {
-      // Convert image to base64
       const base64Image = await convertImageToBase64(file);
 
-      // Call the API
       const response = await axios.post(
         "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
         {
@@ -91,9 +87,6 @@ const CameraPage = () => {
         }
       );
 
-      console.log("API Response:", response.data);
-
-      // Store the analysis results
       const analysisData = {
         ...userData,
         imageAnalysis: response.data,
@@ -105,10 +98,8 @@ const CameraPage = () => {
 
       setIsLoading(false);
 
-      // Show success alert
       alert("Image analyzed successfully!");
 
-      // Navigate to demographics page
       router.push("/demographics");
     } catch (error) {
       console.error("Error analyzing image:", error);
@@ -121,7 +112,6 @@ const CameraPage = () => {
     <div className="h-screen bg-white relative">
       <NavBar />
 
-      {/* Camera Access Popup */}
       {showCameraPopup && (
         <div
           style={{
@@ -204,7 +194,6 @@ const CameraPage = () => {
               </button>
             </div>
 
-            {/* White line over the buttons */}
             <div
               style={{
                 position: "absolute",
@@ -243,7 +232,6 @@ const CameraPage = () => {
         </p>
       </div>
 
-      {/* Preview Section */}
       <div
         style={{
           position: "absolute",

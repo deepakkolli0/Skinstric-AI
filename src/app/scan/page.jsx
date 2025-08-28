@@ -57,7 +57,7 @@ const ScanPage = () => {
         }
       );
 
-      console.log("API Response:", response.data);
+      
 
       const analysisData = {
         ...userData,
@@ -123,20 +123,18 @@ const ScanPage = () => {
   };
 
   const startCamera = async () => {
-    console.log("Starting camera...");
+    
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "user" },
       });
-      console.log("Camera stream obtained:", stream);
+      
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         setCameraActive(true);
-        console.log("Camera activated");
-      } else {
-        console.log("Video ref not available");
-      }
+                } else {
+        }
     } catch (error) {
       console.error("Error accessing camera:", error);
       alert("Error accessing camera. Please allow camera permissions.");
@@ -174,7 +172,7 @@ const ScanPage = () => {
     }, 1000);
 
     const timer = setTimeout(() => {
-      console.log("Loading finished, starting camera...");
+      
       setIsLoading(false);
     }, 3000);
 
@@ -187,7 +185,7 @@ const ScanPage = () => {
   useEffect(() => {
     if (!isLoading && mounted && !cameraActive && !showPreview) {
       const cameraTimer = setTimeout(() => {
-        console.log("Starting camera after loading ended...");
+
         startCamera();
       }, 100);
 
@@ -206,7 +204,7 @@ const ScanPage = () => {
     );
   }
 
-  console.log("Render state:", {
+  
     isLoading,
     cameraActive,
     mounted,
@@ -345,7 +343,7 @@ const ScanPage = () => {
                   "transform 0.5s ease-in-out, opacity 0.8s ease-in-out",
                 opacity: isGrayed ? 0.7 : 1,
               }}
-              onLoad={() => console.log("Scan icon loaded successfully")}
+              onLoad={() => {}}
               onError={(e) => console.error("Scan icon failed to load:", e)}
             />
           </div>

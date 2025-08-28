@@ -11,14 +11,12 @@ const DemographicsPage = () => {
   };
 
   const handleGetSummary = () => {
-    // Get the actual API data from localStorage that was stored by the camera page
     const storedData = localStorage.getItem("skinstricUserData");
 
     if (storedData) {
       try {
         const userData = JSON.parse(storedData);
         if (userData.imageAnalysis) {
-          // Store the image analysis data with the key that the data page expects
           localStorage.setItem(
             "demographicsData",
             JSON.stringify(userData.imageAnalysis)
@@ -174,7 +172,6 @@ const DemographicsPage = () => {
         </div>
       </div>
 
-      {/* Proceed button in bottom right */}
       <div className="absolute bottom-24 right-10 z-30 flex items-center">
         <div
           className="flex items-center cursor-pointer"
