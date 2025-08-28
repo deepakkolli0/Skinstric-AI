@@ -15,6 +15,17 @@ const CameraPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showCameraPopup, setShowCameraPopup] = useState(false);
   const [galleryGrayed, setGalleryGrayed] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const storedData = localStorage.getItem("skinstricUserData");
@@ -220,7 +231,7 @@ const CameraPage = () => {
       >
         <p
           style={{
-            fontSize: "14px",
+            fontSize: windowWidth <= 850 ? "12px" : "14px",
             color: "black",
             fontWeight: "bold",
             textTransform: "uppercase",
@@ -245,7 +256,7 @@ const CameraPage = () => {
       >
         <p
           style={{
-            fontSize: "14px",
+            fontSize: windowWidth <= 850 ? "12px" : "14px",
             color: "black",
             fontWeight: "bold",
             textTransform: "uppercase",
@@ -310,11 +321,11 @@ const CameraPage = () => {
             }
           }
           
-          .svg-container {
-            position: relative;
-            width: 507px;
-            height: 507px;
-          }
+                     .svg-container {
+             position: relative;
+             width: 507px;
+             height: 507px;
+           }
           
           .rotating-border-slow {
             position: absolute;
@@ -404,12 +415,29 @@ const CameraPage = () => {
           </div>
         ) : (
           <div
-            className="flex items-center justify-center"
-            style={{ gap: "400px" }}
+            className={`flex items-center justify-center ${
+              windowWidth <= 850 ? "flex-col" : "flex-row"
+            }`}
+            style={{
+              gap:
+                windowWidth <= 850
+                  ? "40px"
+                  : windowWidth <= 950
+                  ? "20px"
+                  : windowWidth <= 1050
+                  ? "50px"
+                  : windowWidth <= 1150
+                  ? "100px"
+                  : windowWidth <= 1280
+                  ? "200px"
+                  : "400px",
+              paddingLeft: windowWidth <= 1280 ? "10px" : "0px",
+              paddingRight: windowWidth <= 1280 ? "10px" : "0px",
+            }}
           >
             <div
               className="flex flex-col items-center cursor-pointer"
-              style={{ marginLeft: "-100px" }}
+              style={{ marginLeft: windowWidth <= 1280 ? "0px" : "-100px" }}
             >
               <div className="svg-container">
                 <CameraRotatingBorder />

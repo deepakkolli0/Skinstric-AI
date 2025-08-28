@@ -242,7 +242,7 @@ const DataPage = () => {
   }
 
   return (
-    <div className="h-screen bg-white relative">
+    <div className="min-h-screen bg-white relative">
       <NavBar page="INTRO" />
 
       <div className="text-left px-8 pt-8">
@@ -251,13 +251,13 @@ const DataPage = () => {
         <p className="text-sm text-black font-medium">PREDICTED RACE & AGE</p>
       </div>
 
-      <div className="pl-8 pr-0 pt-8 flex gap-4 h-[calc(75vh-225px)]">
-        <div className="w-1/8">
-          <div className="space-y-4 m-0">
+      <div className="pl-8 pr-0 pt-8 flex flex-col lg:flex-row gap-4 min-h-[600px] pb-32">
+        <div className="w-full lg:w-1/8">
+          <div className="space-y-4 m-0 flex lg:flex-col">
             {["race", "age", "gender"].map((section) => (
               <div
                 key={section}
-                className={`w-full border-t-2 border-black px-8 py-20 cursor-pointer transition-colors ${
+                className={`w-full lg:w-full border-t-2 border-black px-8 py-20 cursor-pointer transition-colors h-[120px] ${
                   selectedSection === section
                     ? "bg-black"
                     : "bg-gray-100 hover:bg-gray-200"
@@ -320,12 +320,12 @@ const DataPage = () => {
           </div>
         </div>
 
-        <div className="w-2/3 border-t-2 border-black bg-gray-100 p-6">
+        <div className="w-full lg:w-2/3 border-t-2 border-black bg-gray-100 p-6">
           <h3 className="text-[36px] font-medium text-black mb-6">
             {getSectionTitle()}
           </h3>
-          <div className="relative h-full w-full">
-            <div className="absolute bottom-7 right-[-40px]">
+          <div className="relative min-h-[500px] w-full flex items-center justify-center">
+            <div className="relative">
               <svg width="450" height="450" viewBox="0 0 450 450">
                 <circle
                   cx="225"
@@ -369,7 +369,7 @@ const DataPage = () => {
           </div>
         </div>
 
-        <div className="w-1/4 border-t-2 border-black bg-gray-100 p-6 pr-8 mr-8">
+        <div className="w-full lg:w-1/4 border-t-2 border-black bg-gray-100 p-6 pr-8 mr-8">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-[18px] font-medium text-black">
               {selectedSection === "gender"
@@ -440,7 +440,7 @@ const DataPage = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-24 left-10 z-30 flex items-center">
+      <div className="absolute bottom-8 left-10 z-30 flex items-center">
         <div className="flex items-center cursor-pointer" onClick={handleBack}>
           <style>
             {`
@@ -501,7 +501,7 @@ const DataPage = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-24 right-10 z-30 flex items-center">
+      <div className="absolute bottom-8 right-10 z-30 flex items-center">
         <div
           className="flex items-center cursor-pointer"
           onClick={handleProceed}

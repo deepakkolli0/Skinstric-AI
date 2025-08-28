@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const DottedSquares = () => {
+  const router = useRouter();
   const [hoveredDiamond, setHoveredDiamond] = useState(null);
   const [animatingSquares, setAnimatingSquares] = useState({});
 
@@ -25,6 +27,34 @@ const DottedSquares = () => {
     console.log("Leaving diamond");
     setHoveredDiamond(null);
     setAnimatingSquares({});
+  };
+
+  const handleDemographicsClick = () => {
+    // Get the actual API data from localStorage that was stored by the camera page
+    const storedData = localStorage.getItem("skinstricUserData");
+
+    if (storedData) {
+      try {
+        const userData = JSON.parse(storedData);
+        if (userData.imageAnalysis) {
+          // Store the image analysis data with the key that the data page expects
+          localStorage.setItem(
+            "demographicsData",
+            JSON.stringify(userData.imageAnalysis)
+          );
+          router.push("/data");
+        } else {
+          alert("No image analysis data found. Please upload an image first.");
+        }
+      } catch (error) {
+        console.error("Error parsing stored data:", error);
+        alert(
+          "Error loading image analysis data. Please try uploading an image again."
+        );
+      }
+    } else {
+      alert("No data found. Please upload an image first.");
+    }
   };
 
   console.log("Current hoveredDiamond:", hoveredDiamond);
@@ -159,6 +189,7 @@ const DottedSquares = () => {
           className="relative cursor-pointer z-30 group demographics-group"
           onMouseEnter={() => handleDiamondHover("demographics")}
           onMouseLeave={handleDiamondLeave}
+          onClick={handleDemographicsClick}
         >
           <button
             className="w-[150px] h-[150px] diamond-button-dark"
